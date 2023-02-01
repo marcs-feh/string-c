@@ -26,5 +26,4 @@ void   string_move(String* dest, String* src);
 void   string_append_byte(String* s, byte b);
 // void string_append_rune(String* s, byte b);
 
-
 #endif /* include guard */
