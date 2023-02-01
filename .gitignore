@@ -1,0 +1,8 @@
+bin/*
+*.o
+*.a
+*.so
+*.bin
+*.dll
+*.lib
+.ninja_log
