@@ -15,14 +15,14 @@ Octet encode_rune(rune r){
 	if(r <= utf8_range_1byte){
 		// 0xxxxxxx
 		oc.size = 1;
-		oc.data[0] = 0x7f & r; // Set most signficant bit to 0
+		oc.data[0] = r;
 	}
 	else if(r <= utf8_range_2byte){
 		// 110xxxxx 10xxxxxx
 		oc.size = 2;
 		oc.data[1] = (r & 0x3f) | 0x80;
 		r = r >> 6;
-		oc.data[0] = (r & 0x1f) | 0xc0; // TODO eliminate &?
+		oc.data[0] = r | 0xc0; // TODO eliminate &?
 	}
 	else if(r <= utf8_range_3byte){
 		// 0x1110xxxx 10xxxxxx 10xxxxxx
@@ -31,7 +31,7 @@ Octet encode_rune(rune r){
 		r = r >> 6;
 		oc.data[1] = (r & 0x3f) | 0x80;
 		r = r >> 6;
-		oc.data[0] = (r & 0x0f) | 0xe0; // TODO eliminate &?
+		oc.data[0] = r | 0xe0;
 	}
 	else if(r <= utf8_range_4byte){
 		// 0x11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
@@ -42,7 +42,7 @@ Octet encode_rune(rune r){
 		r = r >> 6;
 		oc.data[1] = (r & 0x3f) | 0x80;
 		r = r >> 6;
-		oc.data[0] = (r & 0x07) | 0xf0; // TODO eliminate &?
+		oc.data[0] = r | 0xf0;
 	}
 
 	return oc;
