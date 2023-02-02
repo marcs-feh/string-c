@@ -2,6 +2,7 @@
 #define INCLUDE_STR_H_
 
 #include "types.h"
+#include "utf8.h"
 
 // Sequence of bytes
 typedef struct {
