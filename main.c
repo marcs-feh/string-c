@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "utf8.h"
+#include "str.h"
 
 #include <stdio.h>
 
@@ -65,5 +66,12 @@ int main(int argc, const char** argv){
 	point = 0x10348;
 	oc = encode_rune(point);
 	print_octet(oc);
+
+	String s1 = string_from_cstr("Poggers ");
+	string_append_rune(&s1, 0x65e5);
+	string_append_rune(&s1, 0x672c);
+	string_append_rune(&s1, 0x8a9e);
+	printf("%s\n", s1.data.buf);
+	string_del(&s1);
 	return 0;
 }
