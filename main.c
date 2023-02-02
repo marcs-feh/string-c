@@ -67,11 +67,13 @@ int main(int argc, const char** argv){
 	oc = encode_rune(point);
 	print_octet(oc);
 
-	String s1 = string_from_cstr("Poggers ");
+	String s1 = string_from_cstr("Le ");
 	string_append_rune(&s1, 0x65e5);
 	string_append_rune(&s1, 0x672c);
 	string_append_rune(&s1, 0x8a9e);
-	printf("%s\n", s1.data.buf);
+	string_append_cstr(&s1, " is quite pog");
+	string_append_byte(&s1, '\n');
+	printf("%s", s1.data.buf);
 	string_del(&s1);
 	return 0;
 }

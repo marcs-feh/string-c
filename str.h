@@ -26,6 +26,7 @@ void   string_copy(String* dest, String* src);
 void   string_move(String* dest, String* src);
 void   string_append_byte(String* s, byte b);
 void   string_append_rune(String* s, rune b);
+void   string_append_cstr(String* s, const char* cs);
 usize  count_runes(String* s);
 
 #endif /* include guard */

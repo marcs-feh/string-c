@@ -80,6 +80,15 @@ void string_append_byte(String* s, byte b){
 	s->data.buf[s->size] = '\0';
 }
 
+void string_append_cstr(String *s, const char *cs){
+	if(cs == NULL) { return; }
+	usize len = cstring_len(cs);
+	// TODO: optimize this
+	for(usize i = 0; i < len; i += 1){
+		string_append_byte(s, cs[i]);
+	}
+}
+
 void string_append_rune(String* s, rune r){
 	Octet oc = encode_rune(r);
 	uint  n  = octet_len(oc.data[0]);
