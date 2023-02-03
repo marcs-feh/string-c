@@ -77,6 +77,9 @@ int main(int argc, const char** argv){
 	string_append_rune(&s1, 0x8a9e);
 	string_append_cstr(&s1, " is quite pog");
 	printf("'%s', runes:%zu, bytes:%zu\n", s1.data.buf, count_runes(&s1), s1.size);
+	for(usize idx = 0; idx < count_runes(&s1); idx += 1){
+		printf("str[%zu] = %x\n", idx, string_at(&s1, idx));
+	}
 	string_del(&s1);
 	return 0;
 }

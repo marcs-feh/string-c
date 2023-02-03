@@ -81,6 +81,30 @@ void string_append_byte(String* s, byte b){
 	s->data.buf[s->size] = '\0';
 }
 
+rune string_at(String* s, usize idx){
+	// TODO: potentially very unsafe?
+	if(idx >= s->size) { return 0; }
+	usize i = 0, n = 0;
+	while(i < s->size){
+		uint len = octet_len(s->data.buf[i]);
+		if(n == idx){
+			Octet oc;
+			for(uint j = 0; j < len; j += 1){
+				oc.data[j] = s->data.buf[i+j];
+			}
+			return decode_octet(oc);
+		}
+		i += len;
+		n += 1;
+	}
+	return 0;
+}
+
+byte string_byte_at(String* s, usize idx){
+	if(idx >= s->size){ return 0; }
+	return s->data.buf[idx];
+}
+
 void string_append_cstr(String *s, const char *cs){
 	if(cs == NULL) { return; }
 	usize len = cstring_len(cs);
@@ -88,6 +112,12 @@ void string_append_cstr(String *s, const char *cs){
 	for(usize i = 0; i < len; i += 1){
 		string_append_byte(s, cs[i]);
 	}
+}
+
+void string_append_str(String *dest, String *src){
+	if((dest == NULL) || (src == NULL)){ return; }
+
+	for(usize i = 0; i < src->size; i += 1){}
 }
 
 void string_append_rune(String* s, rune r){
