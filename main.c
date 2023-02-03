@@ -49,31 +49,34 @@ void print_octet(Octet oc){
 	printf("\n");
 }
 
-
 int main(int argc, const char** argv){
 	rune point = '$';
 	Octet oc = encode_rune(point);
+	if(!validate_octet(oc)){ printf("Invalid octet\n"); }
 	print_octet(oc);
 
 	point = 0x00a3;
-	oc = encode_rune(point);
+	oc    = encode_rune(point);
+	if(!validate_octet(oc)){ printf("Invalid octet\n"); }
 	print_octet(oc);
 
 	point = 0xd55c;
-	oc = encode_rune(point);
+	oc    = encode_rune(point);
+	if(!validate_octet(oc)){ printf("Invalid octet\n"); }
 	print_octet(oc);
 
 	point = 0x10348;
-	oc = encode_rune(point);
+	oc    = encode_rune(point);
+	if(!validate_octet(oc)){ printf("Invalid octet\n"); }
 	print_octet(oc);
 
+
 	String s1 = string_from_cstr("Le ");
-	string_append_rune(&s1, 0x65e5);
+	string_append_rune(&s1, 0x65e5); // Nihongo
 	string_append_rune(&s1, 0x672c);
 	string_append_rune(&s1, 0x8a9e);
 	string_append_cstr(&s1, " is quite pog");
-	string_append_byte(&s1, '\n');
-	printf("%s", s1.data.buf);
+	printf("'%s', runes:%zu, bytes:%zu\n", s1.data.buf, count_runes(&s1), s1.size);
 	string_del(&s1);
 	return 0;
 }

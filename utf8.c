@@ -75,7 +75,35 @@ rune decode_octet(Octet oc){
 	return r;
 }
 
-// return 0
-// 	+ (((b >> 5) == 0x06) * 2)
-// 	+ (((b >> 4) == 0x0e) * 3)
-// 	+ (((b >> 3) == 0x1e) * 4);
+static inline bool octet_has_nul(Octet oc){
+	uint len = octet_len(oc.data[0]);
+	for(uint i = 0; i < len; i += 1){
+		if(oc.data[i] == '\0'){ return true; }
+	}
+	return false;
+}
+
+// TODO: there's more things such as UTF16 related bs
+bool validate_octet(Octet oc){
+	uint len = octet_len(oc.data[0]);
+	byte mask = 0xc0;
+	// b & mask == 0x80
+	if(len == 0){ return false; } // Bad starting byte
+	else if(octet_has_nul(oc)){ return false; } // NULL is not allowed
+
+	switch(len){
+		case 1:
+			return true;
+		case 2:
+			return ((oc.data[1] & mask) == 0x80);
+		case 3:
+			return ((oc.data[1] & mask) == 0x80) &&
+			       ((oc.data[2] & mask) == 0x80);
+		case 4:
+			return ((oc.data[1] & mask) == 0x80) &&
+			       ((oc.data[2] & mask) == 0x80) &&
+			       ((oc.data[3] & mask) == 0x80);
+	}
+	return false; // NOTE: Should be unreachable
+}
+

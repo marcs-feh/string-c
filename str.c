@@ -72,6 +72,7 @@ void string_move(String *dest, String *src){
 }
 
 void string_append_byte(String* s, byte b){
+	if(b == '\0'){ return; } // Appending NUL is not allowed.
 	if((s->size + 1) >= s->data.size){
 		byte_seq_resize(&s->data, (s->data.size + 2) * 1.5);
 	}
@@ -100,10 +101,10 @@ void string_append_rune(String* s, rune r){
 usize count_runes(String* s){
 	usize n = 0;
 	usize i = 0;
-	while(n < s->size){
+	while(i < s->size){
 		uint len = octet_len(s->data.buf[i]);
-		n += 1;
 		i += len;
+		n += 1;
 	}
 	return n;
 }
@@ -113,5 +114,4 @@ void string_del(String* s){
 	byte_seq_del(&s->data);
 	s->size = 0;
 }
-
 
