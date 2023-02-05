@@ -33,6 +33,8 @@ void   string_move(String* dest, String* src);
 rune   string_at(String* s, usize idx);
 // Get the n-th byte of a string (returns 0 for invalid index)
 byte   string_byte_at(String* s, usize idx);
+// Get position (byte offset) of the n-th rune (returns 0 for invalid index)
+usize  string_rune_byte_pos(String* s, usize idx);
 // Append a byte (or ASCII char) to string
 void   string_append_byte(String* s, byte b);
 // Append a rune (Unicode codepoint)

@@ -100,6 +100,24 @@ rune string_at(String* s, usize idx){
 	return 0;
 }
 
+usize string_rune_byte_pos(String *s, usize idx){
+	if(idx >= s->size) { return 0; }
+	usize i = 0, n = 0;
+	while(i < s->size){
+		uint len = octet_len(s->data.buf[i]);
+		if(n == idx){
+			Octet oc;
+			for(uint j = 0; j < len; j += 1){
+				oc.data[j] = s->data.buf[i+j];
+			}
+			return i;
+		}
+		i += len;
+		n += 1;
+	}
+	return 0;
+}
+
 byte string_byte_at(String* s, usize idx){
 	if(idx >= s->size){ return 0; }
 	return s->data.buf[idx];

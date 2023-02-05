@@ -70,16 +70,16 @@ int main(int argc, const char** argv){
 	if(!validate_octet(oc)){ printf("Invalid octet\n"); }
 	print_octet(oc);
 
-
 	String s1 = string_from_cstr("Le ");
 	string_append_rune(&s1, 0x65e5); // Nihongo
 	string_append_rune(&s1, 0x672c);
 	string_append_rune(&s1, 0x8a9e);
 	string_append_cstr(&s1, " is quite pog");
 	printf("'%s', runes:%zu, bytes:%zu\n", s1.data.buf, count_runes(&s1), s1.size);
-	for(usize idx = 0; idx < count_runes(&s1); idx += 1){
-		printf("str[%zu] = %x\n", idx, string_at(&s1, idx));
-	}
+	// for(usize idx = 0; idx < count_runes(&s1); idx += 1){
+	// 	printf("str[%zu] = %x\n", idx, string_at(&s1, idx));
+	// 	printf("str[%zu] -> %zu\n", idx, string_rune_byte_pos(&s1, idx));
+	// }
 	string_del(&s1);
 	return 0;
 }
