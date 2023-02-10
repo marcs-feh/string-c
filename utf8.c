@@ -5,13 +5,13 @@ static const u32 utf8_range_2byte = 0x000007ff;
 static const u32 utf8_range_3byte = 0x0000ffff;
 static const u32 utf8_range_4byte = 0x0010ffff;
 
-// Get length of an octet based on its first byte
+// Get length of an octet based on its first byte, returns 0 if something goes wrong
 uint octet_len(byte b){
 	if (!(b & 0x80)){ return 1; }
 	else if((b >> 5) == 0x06) { return 2; }
 	else if((b >> 4) == 0x0e) { return 3; }
 	else if((b >> 3) == 0x1e) { return 4; }
-	else { return 0; }
+	return 0;
 }
 
 // Encode rune to octet
@@ -84,7 +84,7 @@ static inline bool octet_has_nul(Octet oc){
 }
 
 // TODO: there's more things such as UTF16 related bs
-bool validate_octet(Octet oc){
+bool octet_validate(Octet oc){
 	uint len = octet_len(oc.data[0]);
 	byte mask = 0xc0;
 	// b & mask == 0x80

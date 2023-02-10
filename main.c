@@ -52,22 +52,22 @@ void print_octet(Octet oc){
 int main(int argc, const char** argv){
 	rune point = '$';
 	Octet oc = encode_rune(point);
-	if(!validate_octet(oc)){ printf("Invalid octet\n"); }
+	if(!octet_validate(oc)){ printf("Invalid octet\n"); }
 	print_octet(oc);
 
 	point = 0x00a3;
 	oc    = encode_rune(point);
-	if(!validate_octet(oc)){ printf("Invalid octet\n"); }
+	if(!octet_validate(oc)){ printf("Invalid octet\n"); }
 	print_octet(oc);
 
 	point = 0xd55c;
 	oc    = encode_rune(point);
-	if(!validate_octet(oc)){ printf("Invalid octet\n"); }
+	if(!octet_validate(oc)){ printf("Invalid octet\n"); }
 	print_octet(oc);
 
 	point = 0x10348;
 	oc    = encode_rune(point);
-	if(!validate_octet(oc)){ printf("Invalid octet\n"); }
+	if(!octet_validate(oc)){ printf("Invalid octet\n"); }
 	print_octet(oc);
 
 	String s1 = string_from_cstr("Le ");
@@ -75,7 +75,7 @@ int main(int argc, const char** argv){
 	string_append_rune(&s1, 0x672c);
 	string_append_rune(&s1, 0x8a9e);
 	string_append_cstr(&s1, " is quite pog");
-	printf("'%s', runes:%zu, bytes:%zu\n", s1.data.buf, count_runes(&s1), s1.size);
+	printf("'%s', runes:%zu, bytes:%zu, ok:%d\n", s1.data.buf, string_len(&s1), s1.size, string_validate(&s1));
 	// for(usize idx = 0; idx < count_runes(&s1); idx += 1){
 	// 	printf("str[%zu] = %x\n", idx, string_at(&s1, idx));
 	// 	printf("str[%zu] -> %zu\n", idx, string_rune_byte_pos(&s1, idx));

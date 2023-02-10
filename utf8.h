@@ -10,6 +10,6 @@ typedef struct {
 uint  octet_len(byte b);
 Octet encode_rune(rune r);
 rune  decode_octet(Octet oc);
-bool  validate_octet(Octet oc);
+bool  octet_validate(Octet oc);
 
 #endif /* include guard */

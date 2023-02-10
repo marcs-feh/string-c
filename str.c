@@ -1,4 +1,5 @@
 #include "str.h"
+#include "utf8.h"
 #include <stdlib.h>
 
 Byte_Seq byte_seq_new(usize n){
@@ -71,16 +72,6 @@ void string_move(String *dest, String *src){
 	src->size = 0;
 }
 
-void string_append_byte(String* s, byte b){
-	if(b == '\0'){ return; } // Appending NUL is not allowed.
-	if((s->size + 1) >= s->data.size){
-		byte_seq_resize(&s->data, (s->data.size + 2) * 1.5);
-	}
-	s->data.buf[s->size] = b;
-	s->size += 1;
-	s->data.buf[s->size] = '\0';
-}
-
 rune string_at(String* s, usize idx){
 	// TODO: potentially very unsafe?
 	if(idx >= s->size) { return 0; }
@@ -123,6 +114,17 @@ byte string_byte_at(String* s, usize idx){
 	return s->data.buf[idx];
 }
 
+void string_append_byte(String* s, byte b){
+	if(b == '\0'){ return; } // Appending NUL is not allowed.
+	if((s->size + 1) >= s->data.size){
+		byte_seq_resize(&s->data, (s->data.size + 2) * 1.5);
+	}
+	s->data.buf[s->size] = b;
+	s->size += 1;
+	s->data.buf[s->size] = '\0';
+}
+
+
 void string_append_cstr(String *s, const char *cs){
 	if(cs == NULL) { return; }
 	usize len = cstring_len(cs);
@@ -146,7 +148,7 @@ void string_append_rune(String* s, rune r){
 	}
 }
 
-usize count_runes(String* s){
+usize string_len(String* s){
 	usize n = 0;
 	usize i = 0;
 	while(i < s->size){
@@ -155,6 +157,30 @@ usize count_runes(String* s){
 		n += 1;
 	}
 	return n;
+}
+
+#include <stdio.h>
+bool string_validate(const String *s){
+	usize i = 0;
+	while(i < s->size){
+		Octet oc;
+		usize len = octet_len(s->data.buf[i]);
+		// Make sure octet has proper lenght and there's enough bytes in string
+		bool ok = (len != 0) || ((i + len) <= s->size);
+		if(!ok){
+			// printf("(!ok)Bad octet at %zu\n", i);
+			return false;
+		}
+		for(uint n = 0; n < len; n += 1){
+			oc.data[n] = s->data.buf[i + n];
+		}
+		if(!octet_validate(oc)){
+			// printf("(!valid)Bad octet at %zu: %x\n", i, s->data.buf[i]);
+			return false;
+		}
+		i += len;
+	}
+	return true;
 }
 
 void string_del(String* s){

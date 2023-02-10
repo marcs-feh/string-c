@@ -31,6 +31,8 @@ void   string_copy(String* dest, String* src);
 void   string_move(String* dest, String* src);
 // Get the n-th rune of a string (returns 0 for invalid index)
 rune   string_at(String* s, usize idx);
+// String lenght (in runes)
+usize  string_len(String* s);
 // Get the n-th byte of a string (returns 0 for invalid index)
 byte   string_byte_at(String* s, usize idx);
 // Get position (byte offset) of the n-th rune (returns 0 for invalid index)
@@ -43,6 +45,7 @@ void   string_append_rune(String* s, rune b);
 void   string_append_cstr(String* s, const char* cs);
 // Append one string to another
 void   string_append_str(String* dest, String* src);
-usize  count_runes(String* s);
+// Validate string.
+bool   string_validate(const String* s);
 
 #endif /* include guard */
